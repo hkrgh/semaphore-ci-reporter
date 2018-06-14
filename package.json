@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A CI bot reporter for Semaphore CI integration with Github.",
   "author": "HKRGH <40249649+hkrgh@users.noreply.github.com >",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "repository": "https://github.com/hkrgh/semaphore-ci-reporter.git",
   "homepage": "https://github.com/hkrgh/semaphore-ci-reporter",
   "bugs": "https://github.com/hkrgh/semaphore-ci-reporter/issues",

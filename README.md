@@ -3,6 +3,8 @@
 A CI bot reporter for Semaphore CI integration with Github.
 A GitHub App built with [Probot](https://github.com/probot/probot).
 
+[![Build Status](https://semaphoreci.com/api/v1/hkrgh/semaphore-ci-reporter/branches/master/badge.svg)](https://semaphoreci.com/hkrgh/semaphore-ci-reporter)
+
 ## Setup
 
 ```sh

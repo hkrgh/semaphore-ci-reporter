@@ -25,7 +25,7 @@ For more, check out the [Contributing Guide](CONTRIBUTING.md).
 
 - 2018-06-12 (20 minutes) Evaluate project, create task list
 - 2018-06-13 (10 minutes) Create account, create repositories, set up Semaphore account and projects
-- 2018-06-14 (5 minutes) Install create-probot-app, add defacto Probot app files
+- 2018-06-14 (10 minutes) Install create-probot-app, add defacto Probot app files, setup Jest in test repo
 
 ## License
 [Apache-2.0](LICENSE) © 2018 HKRGH <40249649+hkrgh@users.noreply.github.com>

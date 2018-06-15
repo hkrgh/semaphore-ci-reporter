@@ -66,4 +66,3 @@ typings/
 # ADDED
 *.pem
 package-lock.json
-hidden.js

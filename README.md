@@ -41,13 +41,19 @@ npm test
 
 ## Contributing
 
-If you have suggestions for how test-probot-app could be improved, or want to report a bug, open an issue! We'd love all and any contributions.
+If you have suggestions for how we could improve this project, or want to report a bug, open an issue! We'd love all and any contributions.
 
 For more, check out the [Contributing Guide](CONTRIBUTING.md).
 
 ## Approach and Challenges
 
-...
+I approached this project using [Probot](https://github.com/probot/probot) and [Semaphore](https://semaphoreci.com/). I chose to use Probot to take advantage of all the existing tool to deliver the result as quickly as possible. I chose to use Semaphore because it was not listed on the prompt and has a public API. I used Nodemon, Smee, Jest, and Standard because they came with `create-probot-app`; I figure the Probot ecosystem benefits more from everyone using the same tooling. I also installed `lodash.get` to avoid errors when getting unexpected responses from services. I also used `request-promise-native` to make requests to the Semaphore API; I've used `request` in the past but it was nice to use something compatible with `async/await`. I also used `unescape` as the Semaphore API sanitizes responses; GitHub appears to also sanitize, resulting in double sanitization without `unescape`.
+
+I started this project making sure I understood the requirements. Then, I created a task list. Setting up the Probot local development was painless. Also, the first time I watched events coming in on a locally running Node instance, I was dazzled. Unit testing with Jest is very easy. Hurray for snapshot testing!
+
+I spent the majority of my time on this project trying to understand the APIs. There's lots of different data types, and GitHub and Semaphore have an interesting overlap of terminology. The GitHub API is massive. The relationships between the data types in GitHub and Semaphore was a significant challenge.
+
+I tracked my time spent on this demonstration for metric purposes. I spent approximately 5 hours in total on this project.
 
 ## Identified Improvements with GitHub, Probot, and Semaphore
 
@@ -57,15 +63,17 @@ For more, check out the [Contributing Guide](CONTRIBUTING.md).
 
 ## Potential Improvements to this project
 
-- For development purposes, I enabled all permissions and events for the GitHub app. For production use, this should be pared down to just what is required. On that note, it would be nice to have a GitHub app development mode, so that developers don't need to click every option in the settings.
-- If the commit has a build before the pull request is raised, with the current code you will not get a comment. We would need to listen to `pull_request.opened` and determine if the latest commit already has a build, and if so go ahead and render the comment.
-- I didn't handle the situation if the pull request is updated with a new commit. We'd likely want to update the comment instead of creating a new one each time.
+- For development purposes, I enabled all permissions and events for the GitHub app. For production use, we should pare down to what the app requires. A GitHub app development mode would help developers avoid clicking every option in the settings.
+- If the commit has a build before a user raises a pull request, with the current code you will not get a comment. We would need to listen to `pull_request.opened`. Then, we would need to determine if the latest commit already has a build. If so, go ahead and render the comment.
+- I didn't handle the situation if a user updates the pull request with a new commit. We'd likely want to update the comment instead of creating a new one each time.
 - It's possible to use the pull request review comments instead of issue comments to link to specific files and lines. That might be helpful to users of GitHub.
 - I've only tested this on this GitHub account. I do not know if this code works correctly when a different user creates a fork and a pull request onto the test project.
 - Add `try/catch` to all request handling and handle errors appropriately.
 - Parallelize more of the work instead of always using a single line `await`.
 - Add more comments to the code. This could help in the situation of additional contributors. Right now most of the code comments are links to GitHub and Semaphore documentation.
-- The commit log is messy. I did all my committing just using the GitHub web interface. (I had a rather situation-specific reason for doing so.) Generally speaking, I would not raise a commit without sufficient tests and a green build. We could potentially squash the early commits to get a cleaner log, but I'm not sure its worth losing the history either.
+- The commit log is messy. I did all my committing only using the GitHub web interface. (I had a rather situation-specific reason for doing so.) Generally speaking, I would not raise a commit without sufficient tests and a green build. We could  squash the early commits to get a cleaner log, but I'm not sure its worth losing the history either.
+- This app only works with Semaphore, and on public GitHub repositories.
+- API calls to Semaphore require authentication. For now, there is a `./hidden.js` to populate these values. For public consumption, this would need to be configurable somehow.
  
 ## Timeline
 
@@ -76,7 +84,7 @@ For more, check out the [Contributing Guide](CONTRIBUTING.md).
 - 2018-06-14 (40 minutes) Grab build information from Semaphore and parse information
 - 2018-06-14 (60 minutes) Organizing code and start tidying; adding commit sha/link to comment
 - 2018-06-15 (45 minutes) Write unit tests, including 100% coverage
-- 2018-06-15 (??? minutes) Update this README
+- 2018-06-15 (30 minutes) Update this README
 
 ## License
 [Apache-2.0](LICENSE) © 2018 HKRGH <40249649+hkrgh@users.noreply.github.com>

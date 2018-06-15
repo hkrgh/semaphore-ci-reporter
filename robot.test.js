@@ -2,8 +2,8 @@ const {
   SEMAPHORE_CONTEXT,
   SUCCESS,
   FAILURE,
-  ERROR,
-  STATES,
+  // ERROR,
+  // STATES,
   parseEventMeta,
   isSemaphoreEvent,
   getPullRequestNumber,
@@ -21,7 +21,7 @@ const request = require('request-promise-native')
 jest.mock('request-promise-native')
 jest.mock('./hidden', () => ({
   projectHash: 'b217cd26b913456fb3836a8e9e87f0ef',
-  authToken: '093c28a53b18408aa7da66c52e460ae7',
+  authToken: '093c28a53b18408aa7da66c52e460ae7'
 }))
 
 const testContext = {
@@ -32,19 +32,19 @@ const testContext = {
     state: SUCCESS,
     commit: {
       sha: '57afc8ccede244a88a219d6ad2ca1110',
-      html_url: 'https://example.com/57afc8ccede244a88a219d6ad2ca1110',
+      html_url: 'https://example.com/57afc8ccede244a88a219d6ad2ca1110'
     },
     sender: {
       login: 'HKRGH'
     },
     branches: [{
       name: 'test-branch'
-    }],
+    }]
   },
   github: {
     pullRequests: {
-      async getAll() {
-        return { data: [{ number: '16' }]}
+      async getAll () {
+        return { data: [{ number: '16' }] }
       }
     },
     issues: {
@@ -56,22 +56,22 @@ const testContext = {
 
 const mockBranchNumberResult = [{
   name: 'test-branch',
-  id: '25',
+  id: '25'
 }]
 
 const mockCommandResult = {
   threads: [{
     commands: [{
       name: 'npm install',
-      result: '0',
+      result: '0'
     }]
   }, {
     commands: [{
       name: 'npm test',
-      result: '256',
+      result: '256'
     }, {
       name: 'npm lint',
-      result: '32',
+      result: '32'
     }]
   }]
 }
@@ -203,7 +203,7 @@ describe('Semaphore CI Reporter', () => {
     test('create a status listening robot', () => {
       const robot = {
         log: jest.fn(),
-        on: jest.fn(),
+        on: jest.fn()
       }
       createRobot(robot)
       expect(robot.log).toMatchSnapshot()

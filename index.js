@@ -5,9 +5,13 @@
 // https://probot.github.io/docs/development/
 
 const get = require('lodash.get')
+const request = require('request-promise-native')
+const unescape = require('unescape')
+const { projectHash, authToken } = require('./hidden')
 
 const SEMAPHORE_CONTEXT = 'semaphoreci'
 const SUCCESS = 'success'
+const BUILD_NUMBER_RE = /builds\/(\d+)/
 
 module.exports = robot => {
   robot.log('Started Semaphore CI Reporter')
@@ -40,20 +44,44 @@ module.exports = robot => {
     if (!pullRequest) return
     const { number } = pullRequest  // Pull request and issue number are identical!
 
+
     // https://octokit.github.io/rest.js/#api-Issues-createComment
     await context.github.issues.createComment({ owner, repo, number, body })
 
-    // https://octokit.github.io/rest.js/#api-PullRequests-createComment
-    /* await context.github.pullRequests.createComment({
-      owner, // √
-      repo, // √
-      number, // √
-      body, // √
-      commit_id, // √
-      // TODO Add parameter: path, x
-      // TODO Add parameter: position, x
-    }) */
+    if (state === SUCCESS) return
 
+
+    // Let's get the Semaphore build information :)
+
+    // https://semaphoreci.com/docs/branches-and-builds-api.html#project_branches
+    const projectBranchesUrl = `https://semaphoreci.com/api/v1/projects/${projectHash}/branches?auth_token=${authToken}`;
+    context.log('#projectBranchesUrl', projectBranchesUrl);
+    const semaphoreBranches = await request({
+      uri: projectBranchesUrl,
+      json: true,
+    })
+    const semaphoreBranchMeta = semaphoreBranches
+      .filter(br => get(br, 'name') === branchName)
+      [0]
+    const branchNumber = get(semaphoreBranchMeta, 'id')
+    const buildNumber = get(targetUrl.match(BUILD_NUMBER_RE), 1)
+    // https://semaphoreci.com/docs/branches-and-builds-api.html#build_log
+    const buildLogUrl = `https://semaphoreci.com/api/v1/projects/${projectHash}/${branchNumber}/builds/${buildNumber}/log?auth_token=${authToken}`
+    context.log('#buildLogUrl', buildLogUrl);
+    const semaphoreLog = await request({
+      uri: buildLogUrl,
+      json: true,
+    })
+    const allCommands = get(semaphoreLog, 'threads')
+      .reduce((prev, thread) => prev.concat(get(thread, 'commands')), [])
+    const problemCommands = allCommands.filter(command => get(command, 'result') !== '0')
+    // Not sanitising data... assuming GitHub does sanitization for us
+    const problemString = problemCommands.map(command => `
+- Job: ${get(command, 'name')} (Result: ${get(command, 'result')})
+\`\`\`${unescape(get(command, 'output'))}\`\`\`
+    `).join('\n')
+
+    await context.github.issues.createComment({ owner, repo, number, body: problemString })
   })
 
   robot.on('pull_request.opened', async context => {

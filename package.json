@@ -21,7 +21,10 @@
   },
   "dependencies": {
     "lodash.get": "^4.4.2",
-    "probot": "^6.0.0"
+    "probot": "^6.0.0",
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5",
+    "unescape": "^1.0.1"
   },
   "devDependencies": {
     "jest": "^22.4.3",

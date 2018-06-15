@@ -29,7 +29,7 @@ For more, check out the [Contributing Guide](CONTRIBUTING.md).
 - 2018-06-14 (90 minutes) Setup Probot app local development with test repository, listen to `status` webhook, filter events, find the pull request from the commit, create basic comment on pull request
 - 2018-06-14 (40 minutes) Grab build information from Semaphore and parse information
 - 2018-06-14 (60 minutes) Organizing code and start tidying; adding commit sha/link to comment
-- 2018-06-14 (45 minutes) Write unit tests, including 100% coverage
+- 2018-06-15 (45 minutes) Write unit tests, including 100% coverage
 
 ## License
 [Apache-2.0](LICENSE) © 2018 HKRGH <40249649+hkrgh@users.noreply.github.com>

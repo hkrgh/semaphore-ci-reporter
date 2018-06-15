@@ -23,6 +23,7 @@ function parseEventMeta (context) {
     targetUrl,
     buildNumber: get(targetUrl.match(BUILD_NUMBER_RE), 1),
     commitId: get(context, 'payload.commit.sha'),
+    commitHtmlUrl: get(context, 'payload.commit.html_url'),
     senderName: get(context, 'payload.sender.login'),
     branchName: get(context, 'payload.branches[0].name'),
     // TODO Is it possible to have more than one branch here?
@@ -99,16 +100,28 @@ async function getSemaphoreBuildLog (branchName, buildNumber) {
   return formatSemaphoreLog(commands)
 }
 
-async function getCommentBody ({ state, targetUrl, branchName, buildNumber }) {
+async function getCommentBody ({
+  state,
+  targetUrl,
+  commitId,
+  commitHtmlUrl,
+  branchName,
+  buildNumber
+}) {
+  const shortCommit = commitId.substring(0, 8)
   if (state === SUCCESS) {
     return `
 :green_heart: _Congrats!_
-Semaphore passed the pull request. You can look at [the build](${targetUrl})!`
+Semaphore passed the pull request.
+You can look at [the build](${targetUrl})
+or [commit ${shortCommit}](${commitHtmlUrl}).`
   }
   const logString = await getSemaphoreBuildLog(branchName, buildNumber)
   return `
 :x: _Oh no!_
-Semaphore failed the pull request. You can look at [the build](${targetUrl}).
+Semaphore failed the pull request.
+You can look at [the build](${targetUrl})
+or [commit ${shortCommit}](${commitHtmlUrl}).
 
 ${logString}`
 }
@@ -116,7 +129,7 @@ ${logString}`
 async function onStatusHook (context) {
   const meta = parseEventMeta(context)
   if (!isSemaphoreEvent(meta)) return
-  context.log('Found SemaphoreCI status event,')
+  context.log('Found SemaphoreCI status event.')
   const issueNumber = await getPullRequestNumber(meta)
   const body = await getCommentBody(meta)
   // https://octokit.github.io/rest.js/#api-Issues-createComment
@@ -131,7 +144,7 @@ async function onStatusHook (context) {
 }
 
 function createRobot (robot) {
-  robot.log('Started Semaphore CI Reporter')
+  robot.log('Started Semaphore CI Reporter.')
 
   // https://probot.github.io/docs/webhooks/
   // https://developer.github.com/v3/activity/events/types/#statusevent

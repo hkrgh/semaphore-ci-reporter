@@ -3,7 +3,23 @@
 A CI bot reporter for Semaphore CI integration with Github.
 A GitHub App built with [Probot](https://github.com/probot/probot).
 
+*Please note: this project is for demonstration purposes, and is not intended for public consumption.*
+
 [![Build Status](https://semaphoreci.com/api/v1/hkrgh/semaphore-ci-reporter/branches/master/badge.svg)](https://semaphoreci.com/hkrgh/semaphore-ci-reporter)
+
+## Demonstration
+
+Here's what a [successful build](https://github.com/hkrgh/test-semaphore-ci-reporter/pull/33) looks like:
+
+[<img src="https://i.imgur.com/rhKIT5Q.png" width="400" />](https://github.com/hkrgh/test-semaphore-ci-reporter/pull/33)
+
+And here's what a [failed build](https://github.com/hkrgh/test-semaphore-ci-reporter/pull/32) looks like:
+
+[<img src="https://i.imgur.com/VVpopXd.png" width="400" />](https://github.com/hkrgh/test-semaphore-ci-reporter/pull/32)
+
+At this time, this project has 100% unit test coverage.
+
+<img src="https://i.imgur.com/QHEbCS5.png" width="400" />
 
 ## Setup
 

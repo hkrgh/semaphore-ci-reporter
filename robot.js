@@ -114,14 +114,14 @@ async function getCommentBody ({
 :green_heart: _Congrats!_
 Semaphore passed the pull request.
 You can look at [the build](${targetUrl})
-or [commit ${shortCommit}](${commitHtmlUrl}).`
+or [commit \`${shortCommit}\`](${commitHtmlUrl}).`
   }
   const logString = await getSemaphoreBuildLog(branchName, buildNumber)
   return `
 :x: _Oh no!_
 Semaphore failed the pull request.
 You can look at [the build](${targetUrl})
-or [commit ${shortCommit}](${commitHtmlUrl}).
+or [commit \`${shortCommit}\`](${commitHtmlUrl}).
 
 ${logString}`
 }
@@ -155,9 +155,16 @@ function createRobot (robot) {
   // robot.on('pull_request.opened', async context => {
   //   context.log('pull_request.opened')
   // })
+
+  return robot
 }
 
 module.exports = {
+  SEMAPHORE_CONTEXT,
+  SUCCESS,
+  FAILURE,
+  ERROR,
+  STATES,
   parseEventMeta,
   isSemaphoreEvent,
   getPullRequestNumber,

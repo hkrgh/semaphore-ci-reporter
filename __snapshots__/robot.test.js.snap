@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Semaphore CI Reporter #createRobot create a status listening robot 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "Started Semaphore CI Reporter.",
+    ],
+  ],
+}
+`;
+
+exports[`Semaphore CI Reporter #createRobot create a status listening robot 2`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "status",
+      [Function],
+    ],
+  ],
+}
+`;
+
+exports[`Semaphore CI Reporter #formatSemaphoreLog format the failed commands 1`] = `
+"
+- Job: **npm test** (Result: 256)
+\`\`\`> Your test failed.\`\`\`"
+`;
+
+exports[`Semaphore CI Reporter #getCommentBody get a failed comment 1`] = `
+"
+:x: _Oh no!_
+Semaphore failed the pull request.
+You can look at [the build](https://example.com/build/25)
+or [commit \`57afc8cc\`](https://example.com/57afc8ccede244a88a219d6ad2ca1110).
+
+
+- Job: **npm test** (Result: 256)
+\`\`\`\`\`\`
+
+- Job: **npm lint** (Result: 32)
+\`\`\`\`\`\`"
+`;
+
+exports[`Semaphore CI Reporter #getCommentBody get a success comment 1`] = `
+"
+:green_heart: _Congrats!_
+Semaphore passed the pull request.
+You can look at [the build](https://example.com/build/25)
+or [commit \`57afc8cc\`](https://example.com/57afc8ccede244a88a219d6ad2ca1110)."
+`;
+
+exports[`Semaphore CI Reporter #getSemaphoreBuildLog it should get the build log 1`] = `
+"
+- Job: **npm test** (Result: 256)
+\`\`\`\`\`\`
+
+- Job: **npm lint** (Result: 32)
+\`\`\`\`\`\`"
+`;
+
+exports[`Semaphore CI Reporter #getSemaphoreProblemCommands get the problem commands 1`] = `
+Array [
+  Object {
+    "name": "npm test",
+    "result": "256",
+  },
+  Object {
+    "name": "npm lint",
+    "result": "32",
+  },
+]
+`;
+
+exports[`Semaphore CI Reporter #onStatusHook create a comment on status update 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "Found SemaphoreCI status event.",
+    ],
+    Array [
+      "Added Semaphore comment.",
+    ],
+  ],
+}
+`;
+
+exports[`Semaphore CI Reporter #onStatusHook create a comment on status update 2`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "body": "
+:green_heart: _Congrats!_
+Semaphore passed the pull request.
+You can look at [the build](https://example.com/build/25)
+or [commit \`57afc8cc\`](https://example.com/57afc8ccede244a88a219d6ad2ca1110).",
+        "number": "16",
+        "owner": "HKRGH",
+        "repo": "test-repo",
+      },
+    ],
+  ],
+}
+`;
+
+exports[`Semaphore CI Reporter #parseEventMeta format data from the context that we need 1`] = `
+Object {
+  "branchName": "test-branch",
+  "buildNumber": undefined,
+  "commitHtmlUrl": "https://example.com/57afc8ccede244a88a219d6ad2ca1110",
+  "commitId": "57afc8ccede244a88a219d6ad2ca1110",
+  "context": Object {
+    "github": Object {
+      "issues": Object {
+        "createComment": [MockFunction],
+      },
+      "pullRequests": Object {
+        "getAll": [Function],
+      },
+    },
+    "log": [MockFunction],
+    "payload": Object {
+      "branches": Array [
+        Object {
+          "name": "test-branch",
+        },
+      ],
+      "commit": Object {
+        "html_url": "https://example.com/57afc8ccede244a88a219d6ad2ca1110",
+        "sha": "57afc8ccede244a88a219d6ad2ca1110",
+      },
+      "context": "semaphoreci",
+      "sender": Object {
+        "login": "HKRGH",
+      },
+      "state": "success",
+      "target_url": "https://example.com/build/25",
+    },
+    "repo": [Function],
+  },
+  "eventContext": "semaphoreci",
+  "owner": "HKRGH",
+  "repo": "test-repo",
+  "senderName": "HKRGH",
+  "state": "success",
+  "targetUrl": "https://example.com/build/25",
+}
+`;
